@@ -39,6 +39,10 @@ class SqlHelper {
         title TEXT NOT NULL,
         email TEXT NOT NULL,
         phone TEXT NOT NULL
+ departmentId INTEGER,
+    FOREIGN KEY (departmentId) REFERENCES department(id)
+     salaryId INTEGER,
+    FOREIGN KEY (salaryId) REFERENCES salary(id)
       )
     ''');
       print('Employee table created.');
