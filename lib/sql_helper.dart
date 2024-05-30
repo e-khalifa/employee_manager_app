@@ -6,6 +6,7 @@ import 'models/employee.dart';
 class SqlHelper {
   Database? db;
 
+  // Creating database
   Future<void> initDb() async {
     try {
       if (kIsWeb) {
@@ -28,64 +29,78 @@ class SqlHelper {
     }
   }
 
+  /* Creating tables:
+                     1- Employees
+                     2- Projects
+                     3- Departments
+                     4- Employees Attendance
+                     5- Salary*/
   Future<bool> createTables() async {
     try {
       var batch = db!.batch();
 
+      // Employees table
       batch.execute('''
-      CREATE TABLE IF NOT EXISTS employee(
-        id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL,
-        title TEXT NOT NULL,
-        email TEXT NOT NULL,
-        phone TEXT NOT NULL
- departmentId INTEGER,
-    FOREIGN KEY (departmentId) REFERENCES department(id)
-     salaryId INTEGER,
-    FOREIGN KEY (salaryId) REFERENCES salary(id)
-      )
-    ''');
+        CREATE TABLE IF NOT EXISTS employee(
+          id INTEGER PRIMARY KEY,
+          name TEXT NOT NULL,
+          title TEXT NOT NULL,
+          email TEXT NOT NULL,
+          phone TEXT NOT NULL,
+          departmentId INTEGER,
+          salaryId INTEGER,
+          FOREIGN KEY (departmentId) REFERENCES department(id),
+          FOREIGN KEY (salaryId) REFERENCES salary(id)
+        )
+      ''');
       print('Employee table created.');
 
+      // Department table
       batch.execute('''
-      CREATE TABLE IF NOT EXISTS department(
-        id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL,
-        employees_number INTEGER NOT NULL
-      )
-    ''');
+        CREATE TABLE IF NOT EXISTS department(
+          id INTEGER PRIMARY KEY,
+          name TEXT NOT NULL,
+          employees_number INTEGER NOT NULL
+        )
+      ''');
       print('Department table created.');
 
+      // Project table
       batch.execute('''
-      CREATE TABLE IF NOT EXISTS project(
-        id INTEGER PRIMARY KEY,
-        name TEXT NOT NULL,
-        startdate TEXT NOT NULL,
-        enddate TEXT NOT NULL
-      )
-    ''');
-      print('project table created.');
+        CREATE TABLE IF NOT EXISTS project(
+          id INTEGER PRIMARY KEY,
+          name TEXT NOT NULL,
+          startdate TEXT NOT NULL,
+          enddate TEXT NOT NULL,
+          employeeId INTEGER,
+          FOREIGN KEY (employeeId) REFERENCES employee(id)
+        )
+      ''');
+      print('Project table created.');
 
+      // EmployeeAttendance table
       batch.execute('''
-      CREATE TABLE IF NOT EXISTS employeeAttendance(
-        id INTEGER PRIMARY KEY,
-        attendance_date TEXT NOT NULL,
-        status TEXT NOT NULL
-      )
-    ''');
-      print('employeeAttendance table created.');
+        CREATE TABLE IF NOT EXISTS employeeAttendance(
+          id INTEGER PRIMARY KEY,
+          attendance_date TEXT NOT NULL,
+          status TEXT NOT NULL,
+          employeeId INTEGER,
+          FOREIGN KEY (employeeId) REFERENCES employee(id)
+        )
+      ''');
+      print('EmployeeAttendance table created.');
 
+      // Salary table
       batch.execute('''
-      CREATE TABLE IF NOT EXISTS salary(
-        id INTEGER PRIMARY KEY,
-        amount INTEGER NOT NULL,
-        currency TEXT NOT NULL
-      )
-    ''');
-      print('salary table created.');
+        CREATE TABLE IF NOT EXISTS salary(
+          id INTEGER PRIMARY KEY,
+          amount INTEGER NOT NULL,
+          currency TEXT NOT NULL
+        )
+      ''');
+      print('Salary table created.');
 
       var result = await batch.commit();
-
       print('Tables created: $result');
       return true;
     } catch (e) {
