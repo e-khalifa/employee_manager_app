@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import '../models/employee.dart';
 import '../sql_helper.dart';
 
@@ -9,7 +10,7 @@ class EmployeesListPage extends StatefulWidget {
 
 class _EmployeesListPageState extends State<EmployeesListPage> {
   List<Employee> _employees = [];
-  final sqlHelper = SqlHelper();
+  var sqlHelper = GetIt.I.get<SqlHelper>();
 
   @override
   void initState() {
