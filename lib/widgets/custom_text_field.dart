@@ -9,7 +9,7 @@ Widget customTextField({
     controller: controller,
     decoration: InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(color: Colors.blueGrey),
+      labelStyle: const TextStyle(color: Colors.blueGrey),
     ),
     keyboardType: keyboardType,
     autovalidateMode: AutovalidateMode.onUserInteraction,

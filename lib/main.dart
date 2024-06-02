@@ -1,7 +1,6 @@
+import 'package:employee_info/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'pages/employees_list.dart';
-import 'pages/home.dart';
 import 'sql_helper.dart';
 
 void main() async {
@@ -19,11 +18,7 @@ class EmployeeManagerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Employee Manager',
-      home: HomePage(),
-      routes: {
-        '/home': (context) => HomePage(),
-        '/employeeList': (context) => EmployeesListPage(),
-      },
+      home: SplashScreen(),
     );
   }
 }

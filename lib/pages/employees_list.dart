@@ -1,5 +1,7 @@
+import 'package:employee_info/pages/employee_adding.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:route_transitions/route_transitions.dart';
 import '../models/employee.dart';
 import '../sql_helper.dart';
 
@@ -27,28 +29,25 @@ class _EmployeesListPageState extends State<EmployeesListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Company Employees',
+        title: const Text('Company Employees',
             style: TextStyle(color: Colors.white, fontSize: 24)),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: const Color.fromRGBO(61, 100, 145, 1),
       ),
       body: ListView(children: [
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: DataTable(
+            headingTextStyle: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Color.fromRGBO(61, 100, 145, 1),
+            ),
+            dividerThickness: 2,
             columnSpacing: 32,
-            columns: [
-              DataColumn(
-                  label: Text('Name',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-              DataColumn(
-                  label: Text('Title',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-              DataColumn(
-                  label: Text('Email',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
-              DataColumn(
-                  label: Text('Phone Number',
-                      style: TextStyle(fontWeight: FontWeight.bold))),
+            columns: const [
+              DataColumn(label: Text('Name')),
+              DataColumn(label: Text('Title')),
+              DataColumn(label: Text('Email')),
+              DataColumn(label: Text('Phone Number')),
             ],
             rows: _employees.map((employee) {
               return DataRow(
@@ -64,11 +63,11 @@ class _EmployeesListPageState extends State<EmployeesListPage> {
         ),
       ]),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromRGBO(61, 100, 145, 1),
         onPressed: () {
-          Navigator.of(context).popUntil((route) => route.isFirst);
+          slideUpWidget(newPage: const EmployeeAdding(), context: context);
         },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.blueGrey,
+        child: const Icon(Icons.add),
       ),
     );
   }

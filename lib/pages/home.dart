@@ -1,132 +1,111 @@
+import 'package:employee_info/widgets/today_attendance_card.dart';
 import 'package:flutter/material.dart';
-import 'package:employee_info/sql_helper.dart';
-import 'package:get_it/get_it.dart';
-import '../models/employee.dart';
-import '../widgets/custom_text_field.dart';
+import 'package:route_transitions/route_transitions.dart';
+import '../widgets/custom_grid_view_item.dart';
 import 'employees_list.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  var sqlHelper = GetIt.I.get<SqlHelper>();
-  List<Employee> _employees = [];
-  Employee? _recentlyAddedEmployee;
-
-  //validation
-  final _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final titleController = TextEditingController();
-  final emailController = TextEditingController();
-  final phoneController = TextEditingController();
-
-  //adding employee
-  void addEmployee() async {
-    Employee newEmployee = Employee(
-      name: nameController.text,
-      title: titleController.text,
-      email: emailController.text,
-      phone: phoneController.text,
-    );
-    //adding in db
-    await sqlHelper.insertEmployee(newEmployee);
-    setState(() {
-      _recentlyAddedEmployee = newEmployee;
-      _employees.add(newEmployee);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Container(),
       appBar: AppBar(
-        title: Text('Employee Manager',
-            style: TextStyle(color: Colors.white, fontSize: 24)),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: const Color.fromRGBO(61, 100, 145, 1),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              customTextField(
-                label: 'Employee Name',
-                controller: nameController,
-              ),
-              customTextField(
-                label: 'Title',
-                controller: titleController,
-              ),
-              customTextField(
-                label: 'Email',
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              customTextField(
-                label: 'Phone Number',
-                controller: phoneController,
-                keyboardType: TextInputType.phone,
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    addEmployee();
-                    nameController.clear();
-                    titleController.clear();
-                    emailController.clear();
-                    phoneController.clear();
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                              title: Text('Employee Added Successfully!'),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      if (_recentlyAddedEmployee != null) {
-                                        Navigator.of(context).pop();
-
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EmployeesListPage()),
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content:
-                                                Text('No employee added yet.'),
-                                            duration: Duration(seconds: 3),
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    child: Text('View Employees Details')),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text('Add a New Employee'))
-                              ]);
-                        });
-                  }
-                },
-                child: Text('Add Employee'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueGrey,
-                  foregroundColor: Colors.white,
+      body: Stack(children: [
+        Column(
+          children: [
+            Container(
+              color: const Color.fromRGBO(61, 100, 145, 1),
+              height: MediaQuery.of(context).size.height / 4,
+            ),
+            Expanded(
+                child: Container(
+              color: Colors.grey.shade50,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, bottom: 20, top: 120),
+                child: GridView.count(
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
+                  crossAxisCount: 3,
+                  children: [
+                    //To ADD: navigate to each item's page
+                    CustomGridViewItem(
+                      label: 'Attendance',
+                      icon: Icons.checklist,
+                      color: Colors.yellow,
+                      onTap: () {},
+                    ),
+                    CustomGridViewItem(
+                      label: 'Departments',
+                      icon: Icons.list,
+                      color: Colors.lightBlueAccent,
+                      onTap: () {},
+                    ),
+                    CustomGridViewItem(
+                        label: 'Employees',
+                        icon: Icons.badge,
+                        color: Colors.purple,
+                        onTap: () {
+                          slideRightWidget(
+                              newPage: EmployeesListPage(), context: context);
+                        }),
+                    CustomGridViewItem(
+                      label: 'Projects',
+                      icon: Icons.work,
+                      color: Colors.pink,
+                      onTap: () {},
+                    ),
+                    CustomGridViewItem(
+                      label: 'Salary',
+                      icon: Icons.paid,
+                      color: Colors.lightGreen,
+                      onTap: () {},
+                    ),
+                  ],
                 ),
               ),
+            ))
+          ],
+        ),
+
+        //logo+slogan over 1st container
+        Positioned(
+          top: 0,
+          left: 140,
+          right: 140,
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/images/em_white.png',
+                height: 55,
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              const Text(
+                'power Your Workforce!',
+                style: TextStyle(
+                  fontFamily: 'Pacifico',
+                  color: Colors.white,
+                ),
+              )
             ],
           ),
         ),
-      ),
+
+        //Card over 2 containers
+        const Positioned(
+            top: 90, left: 20, right: 20, child: TodayAttendanceCard()),
+      ]),
     );
   }
 }
