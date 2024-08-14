@@ -17,25 +17,42 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: Container(),
       appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(61, 100, 145, 1),
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/images/em_white.png',
+              height: 55,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            const Text(
+              'power Your Workforce!',
+              style: TextStyle(
+                fontFamily: 'Pacifico',
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
       ),
       body: Stack(children: [
         Column(
           children: [
             Container(
               color: const Color.fromRGBO(61, 100, 145, 1),
-              height: MediaQuery.of(context).size.height / 4,
+              height: MediaQuery.of(context).size.height / 6,
             ),
             Expanded(
                 child: Container(
               color: Colors.grey.shade50,
               child: Padding(
                 padding: const EdgeInsets.only(
-                    left: 20, right: 20, bottom: 20, top: 120),
+                    left: 20, right: 20, bottom: 20, top: 150),
                 child: GridView.count(
                   mainAxisSpacing: 20,
                   crossAxisSpacing: 20,
-                  crossAxisCount: 3,
+                  crossAxisCount: 2,
                   children: [
                     //To ADD: navigate to each item's page
                     CustomGridViewItem(
@@ -77,34 +94,9 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
 
-        //logo+slogan over 1st container
-        Positioned(
-          top: 0,
-          left: 140,
-          right: 140,
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/images/em_white.png',
-                height: 55,
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              const Text(
-                'power Your Workforce!',
-                style: TextStyle(
-                  fontFamily: 'Pacifico',
-                  color: Colors.white,
-                ),
-              )
-            ],
-          ),
-        ),
-
         //Card over 2 containers
         const Positioned(
-            top: 90, left: 20, right: 20, child: TodayAttendanceCard()),
+            top: 40, left: 20, right: 20, child: TodayAttendanceCard()),
       ]),
     );
   }

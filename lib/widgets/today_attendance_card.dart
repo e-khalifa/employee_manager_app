@@ -13,82 +13,86 @@ class TodayAttendanceCard extends StatelessWidget {
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(30),
-        child: Column(children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Today\'s Attendance',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              InkWell(
-                onTap: () {
-                  //TO ADD: navigate to attendance room
-                },
-                child: Text(
-                  'See All',
-                  style: TextStyle(color: Colors.blue.shade700),
+        child: SizedBox(
+          height: 160,
+          width: double.infinity,
+          child: Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Today\'s Attendance',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Text(
-                DateFormat('MMM d, yyyy').format(attendanceDate),
-                style: const TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
-          const SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: () {
-                  //TO ADD: navigate to attendance room - filtering present employees
-                },
-                child: const Column(
-                  children: [
-                    Text(
-                      'Present',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '20',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                          color: Colors.green),
-                    )
-                  ],
+                InkWell(
+                  onTap: () {
+                    //TO ADD: navigate to attendance room
+                  },
+                  child: Text(
+                    'See All',
+                    style: TextStyle(color: Colors.blue.shade700),
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: () {
-                  //TO ADD: navigate to attendance room - filtering absent employees
-                },
-                child: const Column(
-                  children: [
-                    Text(
-                      'Absent',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '10',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                          color: Colors.red),
-                    )
-                  ],
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  DateFormat('MMM d, yyyy').format(attendanceDate),
+                  style: const TextStyle(fontSize: 16),
                 ),
-              )
-            ],
-          )
-        ]),
+              ],
+            ),
+            const SizedBox(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    //TO ADD: navigate to attendance room - filtering present employees
+                  },
+                  child: const Column(
+                    children: [
+                      Text(
+                        'Present',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '20',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            color: Colors.green),
+                      )
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    //TO ADD: navigate to attendance room - filtering absent employees
+                  },
+                  child: const Column(
+                    children: [
+                      Text(
+                        'Absent',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        '10',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            color: Colors.red),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            )
+          ]),
+        ),
       ),
     );
   }

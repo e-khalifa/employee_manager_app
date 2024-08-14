@@ -23,12 +23,12 @@ class CustomGridViewItem extends StatelessWidget {
         child: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             CircleAvatar(
-              radius: 30,
+              radius: 40,
               backgroundColor: color.withOpacity(.2),
               child: Icon(
                 icon,
                 color: color,
-                size: 35,
+                size: 40,
               ),
             ),
             const SizedBox(
@@ -36,6 +36,7 @@ class CustomGridViewItem extends StatelessWidget {
             ),
             Text(
               label,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
             )
           ]),
         ),
